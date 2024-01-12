@@ -49,7 +49,7 @@ Download the model:
 ./scripts/download_model.sh
 ```
 
-Update the model path in [terminalmind_config.sh](terminalmind/terminalmind-packaging/usr/local/bin/terminalmind_config.sh) file
+Update the model path in [terminalmind_config.sh](https://github.com/namtranase/terminalmind/blob/main/terminalmind-packaging/usr/local/bin/terminalmind_config.sh) file
 ```bash
 # Edit the file to set the correct model path
 vim terminalmind/terminalmind-packaging/usr/local/bin/terminalmind_config.sh
