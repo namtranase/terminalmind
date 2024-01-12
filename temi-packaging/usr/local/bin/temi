@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# Configuration file to store the model path
+# Get the directory of the current script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+# Use paths relative to the script directory
 CONFIG_FILE="$HOME/.temi_config"
+EXTRACT_PDF_SCRIPT="$SCRIPT_DIR/extract_pdf_content.py"
+FETCH_ARTICLE_SCRIPT="$SCRIPT_DIR/fetch_article_content.py"
+PROMPT_FILE="$SCRIPT_DIR/prompt.txt"
+TEMICORE="$SCRIPT_DIR/temicore"
 
 # Function to validate if the model path ends with .gguf
 validate_model_path() {
@@ -57,7 +64,7 @@ fi
 input_string="$*"
 
 if [[ ! $input_string =~ summary|summarize|RAG|Retrieve|retrieve ]]; then
-    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
+    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
 # Check if input contains 'summary' or 'summarize'
 elif [[ $input_string =~ summary|summarize ]]; then
     # Extract URL from input
@@ -68,7 +75,7 @@ elif [[ $input_string =~ summary|summarize ]]; then
     fi
 
     # Fetch article content using Python script
-    content=$(python3 /usr/local/bin/fetch_article_content.py "$url")
+    content=$(python3 $FETCH_ARTICLE_SCRIPT "$url")
 
     # Check if content was successfully fetched
     if [[ $content == Error:* ]]; then
@@ -78,11 +85,11 @@ elif [[ $input_string =~ summary|summarize ]]; then
     # Prepare the prompt and write to a file
     {
         echo "<s>[INST] Summary the content: ${content} - Write at most 50 words in new line [/INST]"
-    } &> /usr/local/bin/prompt.txt
+    } &> $PROMPT_FILE
 
 
     # Call LLM model with content
-    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE
 # RAG with PDF Input Use Case
 elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     pdf_path=$(extract_pdf_path "$input_string")
@@ -97,7 +104,7 @@ elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     fi
     echo "PDF file: $pdf_path"
     echo "Search keywork: $keyword"
-    content=$(python3 /usr/local/bin/extract_pdf_content.py "$pdf_path")
+    content=$(python3 $EXTRACT_PDF_SCRIPT "$pdf_path")
     if [[ -z $content ]]; then
         echo "Failed to extract text from the PDF."
         exit 1
@@ -105,10 +112,10 @@ elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     # Prepare the prompt and write to a file
     {
         echo "<s>[INST] Get the ${keyword} information from: ${content} - Write at most 50 words in new line [/INST]"
-    } &> /usr/local/bin/prompt.txt
+    } &> $PROMPT_FILE
 
     # Call LLM model with content
-    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE
 
 # Other cases or default behavior
 else
