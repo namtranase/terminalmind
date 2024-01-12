@@ -80,6 +80,7 @@ temi Hello
 # Model file not found at /llm_models/model.gguf.
 # Please enter the absolute path to your .gguf model file:
 models/model.gguf
+```
 
 And now you can use `temi` as the terminal assistant:
 ```bash
