@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# Source the configuration file
+source /usr/bin/terminalmind_config.sh
+
+# Function to extract URL from input
+extract_url() {
+    echo "$1" | grep -o 'http[s]*://[^ ]*'
+}
+
+# Function to extract PDF file path or URL from input
+extract_pdf_path() {
+    # Use grep with a regular expression to find paths or URLs ending in .pdf
+    # This pattern matches both local paths and URLs
+    echo "$1" | grep -o -E '(http[s]*://[^ ]*\.pdf|/[^ ]*\.pdf)'
+}
+
+# Function to extract the keyword phrase enclosed in curly braces {}
+extract_keyword() {
+    local input=$1
+    local keyword=""
+
+    # Extract the keyword following 'keyword:' and ending at the comma
+    if echo "$input" | grep -q 'keyword:'; then
+        keyword=$(echo "$input" | grep -o 'keyword: [^,]*' | cut -d':' -f2 | cut -d',' -f1 | xargs)
+    fi
+
+    echo "$keyword"
+}
+
+
+# Concatenate all input arguments into a single string
+input_string="$*"
+
+if [[ ! $input_string =~ summary|summarize|RAG|Retrieve|retrieve ]]; then
+    /usr/local/bin/terminalmindcore 2>/dev/null -m /opt/model/model.gguf -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
+# Check if input contains 'summary' or 'summarize'
+elif [[ $input_string =~ summary|summarize ]]; then
+    # Extract URL from input
+    url=$(extract_url "$input_string")
+    if [ -z "$url" ]; then
+        echo "No URL found in input."
+        exit 1
+    fi
+
+    # Fetch article content using Python script
+    content=$(python /usr/local/bin/fetch_article_content.py "$url")
+
+    # Check if content was successfully fetched
+    if [[ $content == Error:* ]]; then
+        echo "$content"
+        exit 1
+    fi
+    # Prepare the prompt and write to a file
+    {
+        echo "<s>[INST] Summary the content: ${content} - Write at most 50 words in new line [/INST]"
+    } &> /usr/local/bin/prompt.txt
+
+
+    # Call LLM model with content
+    /usr/local/bin/terminalmindcore 2>/dev/null -m /opt/model/model.gguf -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+# RAG with PDF Input Use Case
+elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
+    pdf_path=$(extract_pdf_path "$input_string")
+    if [ -z "$pdf_path" ]; then
+        echo "No PDF file path found in input."
+        exit 1
+    fi
+    keyword=$(extract_keyword "$input_string")
+    if [ -z "$keyword" ]; then
+        echo "No keyword found in input."
+        exit 1
+    fi
+    echo "PDF file: $pdf_path"
+    echo "Search keywork: $keyword"
+    content=$(python3 /usr/local/bin/extract_pdf_content.py "$pdf_path")
+    if [[ -z $content ]]; then
+        echo "Failed to extract text from the PDF."
+        exit 1
+    fi
+    # Prepare the prompt and write to a file
+    {
+        echo "<s>[INST] Get the ${keyword} information from: ${content} - Write at most 50 words in new line [/INST]"
+    } &> /usr/local/bin/prompt.txt
+
+    # Call LLM model with content
+    /usr/local/bin/terminalmindcore 2>/dev/null -m /opt/model/model.gguf -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+
+# Other cases or default behavior
+else
+    # Handle any other cases or provide a default behavior
+    echo "Command not recognized. Please provide a valid command."
+fi
+
+
