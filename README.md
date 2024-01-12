@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-`terminalmind` is a command-line tool designed to enhance coding efficiency by suggesting relevant code snippets and facilitating text and PDF data processing directly in the terminal. This approach promotes a seamless development workflow, keeping developers focused within their coding environment.
+`terminalmind`, now accessible via the `temi` command, is a command-line tool designed to enhance coding efficiency by suggesting relevant code snippets and facilitating text and PDF data processing directly in the terminal. This approach promotes a seamless development workflow, keeping developers focused within their coding environment.
 
 ## Acknowledgments
 
@@ -39,7 +39,7 @@ Examples:
 
 ## Description
 
-`terminalmind` offers functionalities like text summarization, content retrieval from PDFs, and more, using an integrated language model. Designed for terminal use, it caters to developers, researchers, and technology enthusiasts.
+`terminalmind`, accessible via the `temi` command, offers functionalities like text summarization, content retrieval from PDFs, and more, using an integrated language model. Designed for terminal use, it caters to developers, researchers, and technology enthusiasts.
 
 ## Installation
 
@@ -57,25 +57,25 @@ Download the model:
 Update the model path in [terminalmind_config.sh](https://github.com/namtranase/terminalmind/blob/main/terminalmind-packaging/usr/local/bin/terminalmind_config.sh) file
 ```bash
 # Edit the file to set the correct model path
-vim terminalmind/terminalmind-packaging/usr/local/bin/terminalmind_config.sh
+vim temi-packaging/usr/local/bin/temi_config.sh
 # MODEL_PATH="yourmodelpath/Mistral-7b-v0.1-Q2_K.gguf"
 ```
 
 Build the Debian package:
 ```bash
-dpkg-deb --build terminalmind-packaging terminalmind.deb
+dpkg-deb --build temi-packaging temi.deb
 ```
 
 Install package using `dpkg`:
 ```bash
-sudo dpkg -i terminalmind.deb
+sudo dpkg -i temi.deb
 ```
 
 ## Usage
 
-Use terminalmind like in the example below:
+Use `temi` package like in the example below:
 ```bash
-terminalmind how to make a python package
+temi how to make a python package
 #  To create a Python package, follow these steps:
 
 # 1. Choose a name for your package and ensure it's unique.

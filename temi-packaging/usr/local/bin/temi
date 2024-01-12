@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the configuration file
-source /usr/local/bin/terminalmind_config.sh
+source /usr/local/bin/temi_config.sh
 
 # Function to extract URL from input
 extract_url() {
@@ -33,7 +33,7 @@ extract_keyword() {
 input_string="$*"
 
 if [[ ! $input_string =~ summary|summarize|RAG|Retrieve|retrieve ]]; then
-    /usr/local/bin/terminalmindcore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
+    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
 # Check if input contains 'summary' or 'summarize'
 elif [[ $input_string =~ summary|summarize ]]; then
     # Extract URL from input
@@ -44,7 +44,7 @@ elif [[ $input_string =~ summary|summarize ]]; then
     fi
 
     # Fetch article content using Python script
-    content=$(python /usr/local/bin/fetch_article_content.py "$url")
+    content=$(python3 /usr/local/bin/fetch_article_content.py "$url")
 
     # Check if content was successfully fetched
     if [[ $content == Error:* ]]; then
@@ -58,7 +58,7 @@ elif [[ $input_string =~ summary|summarize ]]; then
 
 
     # Call LLM model with content
-    /usr/local/bin/terminalmindcore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
 # RAG with PDF Input Use Case
 elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     pdf_path=$(extract_pdf_path "$input_string")
@@ -84,7 +84,7 @@ elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     } &> /usr/local/bin/prompt.txt
 
     # Call LLM model with content
-    /usr/local/bin/terminalmindcore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
+    /usr/local/bin/temicore 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file /usr/local/bin/prompt.txt
 
 # Other cases or default behavior
 else
