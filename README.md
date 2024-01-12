@@ -14,6 +14,11 @@
 
 ### Supported Features
 
+Examples:
+<p align="center">
+  <img src="assets/examples.png" alt="Examples"/>
+</p>
+
 - [x] Q&A in terminal
 - [x] Retrieval of information from local or web-based PDF files
 - [x] Summary of online articles
