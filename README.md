@@ -55,12 +55,12 @@ Download the model:
 ./scripts/download_model.sh
 ```
 
-Update the model path in [terminalmind_config.sh](https://github.com/namtranase/terminalmind/blob/main/terminalmind-packaging/usr/local/bin/terminalmind_config.sh) file
-```bash
-# Edit the file to set the correct model path
-vim temi-packaging/usr/local/bin/temi_config.sh
-# MODEL_PATH="yourmodelpath/Mistral-7b-v0.1-Q2_K.gguf"
+Install the package by scripts:
 ```
+./scripts/install_temi.sh
+```
+
+Or build step by step.
 
 Build the Debian package:
 ```bash
@@ -74,7 +74,14 @@ sudo dpkg -i temi.deb
 
 ## Usage
 
-Use `temi` package like in the example below:
+After installation, you can use temi but first, it needs to update the model file. Start temi for the first time and paste the absolute path to the model downloaded above. For example:
+```bash
+temi Hello
+# Model file not found at /llm_models/model.gguf.
+# Please enter the absolute path to your .gguf model file:
+models/model.gguf
+
+And now you can use `temi` as the terminal assistant:
 ```bash
 temi how to make a python package
 #  To create a Python package, follow these steps:

@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# Source the configuration file
-source /usr/local/bin/temi_config.sh
+# Configuration file to store the model path
+CONFIG_FILE="$HOME/.temi_config"
 
+# Function to validate if the model path ends with .gguf
+validate_model_path() {
+    if [[ $1 != *.gguf ]]; then
+        echo "temi only supports .gguf models for now."
+        exit 1
+    fi
+}
 # Function to extract URL from input
 extract_url() {
     echo "$1" | grep -o 'http[s]*://[^ ]*'
@@ -28,6 +35,23 @@ extract_keyword() {
     echo "$keyword"
 }
 
+# Load model path from the configuration file if it exists
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+fi
+
+# Check if the model path is set and valid
+if [ -z "$MODEL_PATH" ] || [ ! -f "$MODEL_PATH" ]; then
+    echo "Model file not found. Please enter the absolute path to your .gguf model file:"
+    read -r user_model_path
+
+    # Validate the provided model path
+    validate_model_path "$user_model_path"
+
+    # Save the model path to the configuration file
+    echo "MODEL_PATH=\"$user_model_path\"" > "$CONFIG_FILE"
+    MODEL_PATH="$user_model_path"
+fi
 
 # Concatenate all input arguments into a single string
 input_string="$*"
@@ -91,5 +115,3 @@ else
     # Handle any other cases or provide a default behavior
     echo "Command not recognized. Please provide a valid command."
 fi
-
-
