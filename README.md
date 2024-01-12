@@ -47,6 +47,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/namtranase/terminalmind.git
 cd terminalmind
+pip install -r requirements.txt
 ```
 
 Download the model:
