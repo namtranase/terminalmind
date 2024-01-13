@@ -4,6 +4,16 @@
   <img src="assets/logo.png" alt="terminalmind logo" width="400"/>
 </p>
 
+**Current Version: v1.0.0**
+
+### What's New in v1.0.0
+
+- **New Feature**: Integration with `llama.cpp` models, enhancing the tool's capabilities.
+- **Improvements**: Removed hardcoded paths for greater flexibility and user convenience.
+- **Documentation Updates**: Release notes added along with updated instructions for model setup and usage.
+
+For more detailed information, please see the [release notes](https://github.com/namtranase/terminalmind/releases/tag/v1.0.0).
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 `terminalmind`, now accessible via the `temi` command, is a command-line tool designed to enhance coding efficiency by suggesting relevant code snippets and facilitating text and PDF data processing directly in the terminal. This approach promotes a seamless development workflow, keeping developers focused within their coding environment.
@@ -12,17 +22,19 @@
 
 `terminalmind` builds on the work of the [llama.cpp](https://github.com/ggerganov/llama.cpp) project. Special thanks to [Georgi Gerganov](https://github.com/ggerganov) and contributors for their groundbreaking work in creating a C++ interface for the LLM model. We encourage `terminalmind` users and developers to support and contribute to `llama.cpp`.
 
-### Supported Features
+## Supported Features
 
-Examples:
+Demo:
 <p align="center">
   <img src="assets/examples.png" alt="Examples"/>
 </p>
 
-- [x] Q&A in terminal
-- [x] Retrieval of information from local or web-based PDF files
-- [x] Summary of online articles
-- [ ] Executing terminal commands based on user input
+- [x] **Q&A in Terminal**: Interactive question-and-answer functionality directly in your command line.
+- [x] **PDF Information Retrieval**: Extract and analyze information from both local and web-based PDF files based on keyword.
+- [x] **Online Article Summarization**: Quickly summarize the content of online articles with a simple command.
+- [ ] **Command Execution Based on User Input**: *Upcoming feature* to execute relevant terminal commands automatically based on user queries.
+- [ ] **GPU Acceleration for Enhanced Performance**: *In development* – leveraging GPU acceleration for faster response times and improved efficiency.
+
 
 ----
 
