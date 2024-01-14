@@ -47,6 +47,26 @@ if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
 fi
 
+change_model() {
+    echo "Please enter the new absolute path to your .gguf model file:"
+    read -r new_model_path
+
+    # Validate the provided model path
+    validate_model_path "$new_model_path"
+
+    # Save the new model path to the configuration file
+    echo "MODEL_PATH=\"$new_model_path\"" > "$CONFIG_FILE"
+    MODEL_PATH="$new_model_path"
+
+    echo "Model path changed successfully."
+}
+
+# Check if the user wants to change the model
+if [[ $1 == "change_model" ]]; then
+    change_model
+    exit 0
+fi
+
 # Check if the model path is set and valid
 if [ -z "$MODEL_PATH" ] || [ ! -f "$MODEL_PATH" ]; then
     echo "Model file not found. Please enter the absolute path to your .gguf model file:"
@@ -64,7 +84,8 @@ fi
 input_string="$*"
 
 if [[ ! $input_string =~ summary|summarize|RAG|Retrieve|retrieve ]]; then
-    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]"
+    output=$($TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 -p "<s>[INST] $* - Write at most 50 words in new line [/INST]" | sed 's/\[INST\].*\[\/INST\]//g')
+    echo "$output"
 # Check if input contains 'summary' or 'summarize'
 elif [[ $input_string =~ summary|summarize ]]; then
     # Extract URL from input
@@ -89,7 +110,9 @@ elif [[ $input_string =~ summary|summarize ]]; then
 
 
     # Call LLM model with content
-    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE
+    output=$($TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE | sed 's/\[INST\].*\[\/INST\]//g')
+    echo "$output"
+
 # RAG with PDF Input Use Case
 elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     pdf_path=$(extract_pdf_path "$input_string")
@@ -115,7 +138,8 @@ elif [[ $input_string =~ RAG|retrieve|Retrieve ]]; then
     } &> $PROMPT_FILE
 
     # Call LLM model with content
-    $TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE
+    output=$($TEMICORE 2>/dev/null -m $MODEL_PATH -n 128 -t 0.8 --file $PROMPT_FILE | sed 's/\[INST\].*\[\/INST\]//g')
+    echo "$output"
 
 # Other cases or default behavior
 else

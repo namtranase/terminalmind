@@ -4,13 +4,13 @@
   <img src="assets/logo.png" alt="terminalmind logo" width="400"/>
 </p>
 
-**Current Version: v1.0.0**
+**Current Version: v1.0.1**
 
-### What's New in v1.0.0
+### What's New in v1.0.1
 
-- **New Feature**: Integration with `llama.cpp` models, enhancing the tool's capabilities.
-- **Improvements**: Removed hardcoded paths for greater flexibility and user convenience.
-- **Documentation Updates**: Release notes added along with updated instructions for model setup and usage.
+- **New Feature**: Integration with `llama.cpp` framework, enhancing the tool's capabilities.
+- **Bug Fixed**: Remove prompt input for better user experiments
+- **Documentation Updates**: Release notes added along with updated instructions for working with llama.cpp
 
 For more detailed information, please see the [release notes](https://github.com/namtranase/terminalmind/releases/tag/v1.0.0).
 
@@ -32,6 +32,7 @@ Demo:
 - [x] **Q&A in Terminal**: Interactive question-and-answer functionality directly in your command line.
 - [x] **PDF Information Retrieval**: Extract and analyze information from both local and web-based PDF files based on keyword.
 - [x] **Online Article Summarization**: Quickly summarize the content of online articles with a simple command.
+- [x] **temi integrates the llama.cpp framework**: `temi` now supports multiple models provided by the llama.cpp framework, enhancing its functionality.
 - [ ] **Command Execution Based on User Input**: *Upcoming feature* to execute relevant terminal commands automatically based on user queries.
 - [ ] **GPU Acceleration for Enhanced Performance**: *In development* – leveraging GPU acceleration for faster response times and improved efficiency.
 
@@ -112,13 +113,19 @@ temi how to make a python package
 Contributions to `temi` are greatly appreciated, whether they involve submitting pull requests, reporting bugs, or suggesting enhancements.
 
 ### Getting Started
+For detailed instructions on working with the llama.cpp submodule, including setup and usage, refer to the WORK_WITH_LLAMACPP.md file.
 
-1. Install Development Dependencies:
+1. Install repo and submoudles:
+```bash
+git clone --recurse-submodules https://github.com/namtranase/terminalmind.git
+```
+
+2. Install Development Dependencies:
 ```bash
 pip install -r requirements/dev_requirements.txt
 ```
 
-2. Set Up Pre-Commit Hooks:
+3. Set Up Pre-Commit Hooks:
 ```bash
 pre-commit install
 ```
