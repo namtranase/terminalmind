@@ -59,7 +59,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/namtranase/terminalmind.git
 cd terminalmind
-pip install -r requirements.txt
+pip install -r requirements/package_requirements.txt
 ```
 
 Download the model:
@@ -109,7 +109,27 @@ temi how to make a python package
 ```
 ## Contributing
 
-We welcome contributions to terminalmind. Please refer to our contributing guidelines for submitting pull requests, reporting bugs, and suggesting enhancements.
+Contributions to `temi` are greatly appreciated, whether they involve submitting pull requests, reporting bugs, or suggesting enhancements.
+
+### Getting Started
+
+1. Install Development Dependencies:
+```bash
+pip install -r requirements/dev_requirements.txt
+```
+
+2. Set Up Pre-Commit Hooks:
+```bash
+pre-commit install
+```
+
+### Making Contributions
+
+- Fork and Clone the Repository: Start by forking the repository and then clone your fork to your local machine.
+
+- Create a New Branch: Work on your changes in a new git branch. This helps to keep your modifications organized and separate from the main codebase.
+
+- Submit a Pull Request: Once your changes are complete, push them to your fork and submit a pull request to the main terminalmind repository.
 
 ## License
 
