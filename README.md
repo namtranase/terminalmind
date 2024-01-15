@@ -60,7 +60,11 @@ Clone the repository:
 ```bash
 git clone https://github.com/namtranase/terminalmind.git
 cd terminalmind
-pip install -r requirements/package_requirements.txt
+```
+
+Install requirement packages:
+```bash
+sudo apt install python3-requests python3-bs4 python3-pypdf2
 ```
 
 Download the model:
