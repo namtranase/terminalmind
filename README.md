@@ -35,9 +35,10 @@ Demo:
 - [x] **temi integrates the llama.cpp framework**: `temi` now supports multiple models provided by the llama.cpp framework, enhancing its functionality.
 - [ ] **Command Execution Based on User Input**: *Upcoming feature* to execute relevant terminal commands automatically based on user queries.
 - [ ] **GPU Acceleration for Enhanced Performance**: *In development* – leveraging GPU acceleration for faster response times and improved efficiency.
-
-
-----
+- [ ] **Integration with llama.cpp Server**: Enhance response times and model management by interfacing with llama.cpp's dedicated server.
+- [ ] **Interactive App and Web Launcher**:  Execute applications and navigate to websites directly through keyword-triggered commands.
+- [ ] **Docker Compatibility**: Run temi seamlessly in Docker containers for isolated and consistent development environments.
+- [ ] **User-Friendly Settings Interface**: Customize temi with ease using a graphical settings panel.
 
 <details>
   <summary>Table of Contents</summary>
