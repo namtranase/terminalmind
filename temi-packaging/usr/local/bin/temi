@@ -3,12 +3,13 @@
 # Get the directory of the current script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-# Use paths relative to the script directory
-CONFIG_FILE="$HOME/.temi_config"
 EXTRACT_PDF_SCRIPT="$SCRIPT_DIR/extract_pdf_content.py"
 FETCH_ARTICLE_SCRIPT="$SCRIPT_DIR/fetch_article_content.py"
 PROMPT_FILE="$SCRIPT_DIR/prompt.txt"
 TEMICORE="$SCRIPT_DIR/temicore"
+
+# Source the configuration setup script
+source "$SCRIPT_DIR/config_setup.sh"
 
 # Function to validate if the model path ends with .gguf
 validate_model_path() {
@@ -17,6 +18,38 @@ validate_model_path() {
         exit 1
     fi
 }
+
+show_help() {
+    echo -e "\033[1mUsage:\033[0m"
+    echo "  temi [COMMAND] [ARGUMENTS]... [OPTIONS]"
+    echo
+    echo -e "\033[1mCommands:\033[0m"
+    echo "  summary|summarize    Summarize the content from a given URL."
+    echo "  RAG|retrieve|Retrieve KEYWORD  Retrieve information given keyword from a PDF file."
+    echo "  change_model    Change the model configuration."
+    echo "  update_config FILE    Update the configuration with the given JSON file."
+    echo
+    echo -e "\033[1mOptions:\033[0m"
+    echo "  --help    Show this help message and exit."
+    echo
+    echo -e "\033[1mExamples:\033[0m"
+    echo "  temi summary https://example.com/article"
+    echo "  temi retrieve with keyword: test, path/to/file.pdf"
+    echo "  temi change_model"
+    echo "  temi update_config path/to/config.json"
+    echo
+    echo "For more information, visit: https://github.com/namtranase/terminalmind"
+    echo
+    echo -e "\033[1mNote:\033[0m Replace [COMMAND] with one of the commands above,"
+    echo "and [ARGUMENTS]... with the appropriate input for the command."
+}
+
+# Check for --help option
+if [[ "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
 # Function to extract URL from input
 extract_url() {
     echo "$1" | grep -o 'http[s]*://[^ ]*'
@@ -41,11 +74,6 @@ extract_keyword() {
 
     echo "$keyword"
 }
-
-# Load model path from the configuration file if it exists
-if [ -f "$CONFIG_FILE" ]; then
-    source "$CONFIG_FILE"
-fi
 
 change_model() {
     echo "Please enter the new absolute path to your .gguf model file:"
