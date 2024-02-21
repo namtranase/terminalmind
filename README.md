@@ -11,6 +11,12 @@
 Enhance your coding and command-line efficiency with `terminalmind`, now known as `temi`. Get relevant code snippets, process text and PDF data without leaving your terminal, and maintain a seamless workflow.
 
 
+### TODO
+
+[] Add the python packaging version for better user experience
+
+[] Add the llamacpp server version for better optimization
+
 ### 🚀 What's New
 
 - Simplified configuration via `config.json`
