@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Path to the configuration directory and default configuration file
 CONFIG_DIR="$HOME/.config/temi"
-CONFIG_FILE="$CONFIG_DIR/temi_config.json"
+CONFIG_FILE="$CONFIG_DIR/temi_config_debian.json"
 
 # Ensure jq is installed
 if ! command -v jq &>/dev/null; then
