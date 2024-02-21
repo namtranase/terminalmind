@@ -17,6 +17,8 @@ Enhance your coding and command-line efficiency with `terminalmind`, now known a
 
 [] Add the llamacpp server version for better optimization
 
+[] Add the database assistant version
+
 ### 🚀 What's New
 
 - Simplified configuration via `config.json`
