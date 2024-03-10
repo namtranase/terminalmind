@@ -1,5 +1,0 @@
-{
-    "server_executable": "llama.cpp/build/bin/server",
-    "model_path": "/home/namtd/workspace/personal/kicopilot/playground/models/model.gguf",
-    "c": 2048
-}
