@@ -45,7 +45,7 @@ def main():
     query_parser.add_argument('user_input', nargs='+', help='The question or command for temi to process')
 
     args = parser.parse_args()
-    temi_interface = TemiInterface("/home/namtd/workspace/personal/terminalmind/configs/sevrer_config.json")
+    temi_interface = TemiInterface("configs/sevrer_config.json")
 
     if args.command == 'check':
         status = temi_interface.check_server_status()
