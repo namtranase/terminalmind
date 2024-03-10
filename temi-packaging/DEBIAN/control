@@ -1,8 +1,0 @@
-Package: temi
-Version: 1.0.2
-Section: base
-Priority: optional
-Architecture: amd64
-Maintainer: Nam Tran <namtran.ase@gmail.com>
-Depends: python3, python3-requests, python3-bs4
-Description: AI assistant command line tool
