@@ -6,6 +6,7 @@ class AssistantGit:
         completion_options = {
             "temperature": 0.7,
             "top_k": 50,
+            "n_predict": 128,
             # ... include other options as needed ...
         }
         prompt = f"### Human: {user_input}\n### Assistant: "
@@ -22,6 +23,7 @@ class AssistantTerminal:
         completion_options = {
             "temperature": 0.7,
             "top_k": 50,
+            "n_predict": 128,
             # ... include other options as needed ...
         }
         prompt = f"### Human: {user_input}\n### Assistant: "

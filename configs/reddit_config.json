@@ -1,0 +1,10 @@
+{
+    "client_id": "your_client",
+    "client_secret": "your_secret",
+    "user_agent": "update_news by u/you",
+    "criteria": {
+        "top": 5,
+        "score": 5,
+        "comment_limit": 5
+    }
+}
